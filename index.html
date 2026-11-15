@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 
-<!DOCTYPE html>
-
 <html dir="rtl" lang="fa">
 <head>
 <meta charset="utf-8"/>
@@ -17,6 +15,13 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 button,input,select,textarea{font:inherit}
+/* Mobile Safari: keep every interactive control reliably tappable. */
+button,a,[role="button"],[role="tab"]{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+button{ -webkit-appearance:none; }
+
 html{scroll-behavior:smooth}
 body{min-height:100vh;display:flex;flex-direction:column;font-family:'Vazirmatn',Tahoma,'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);line-height:1.8}
 img{display:block;max-width:100%}
@@ -402,6 +407,72 @@ if (document.readyState === "loading") {
   if(categoryTabs.length) showCategory(0);
 })();
 
+</script>
+<script>
+/* iOS Safari touch fallback.
+   Some embedded/in-app Safari views fail to synthesize click events for dynamically
+   handled controls. Convert a genuine tap into one normal click, without affecting scroll. */
+(function () {
+  var touchStart = null;
+  var lastSyntheticClick = 0;
+  var lastSyntheticTarget = null;
+  var clearSyntheticTimer = null;
+  var interactiveSelector = 'button, a, [role="button"], [role="tab"]';
+
+  document.addEventListener('touchstart', function (event) {
+    if (!event.touches || event.touches.length !== 1) {
+      touchStart = null;
+      return;
+    }
+    var target = event.target && event.target.closest
+      ? event.target.closest(interactiveSelector) : null;
+    touchStart = target ? {
+      target: target,
+      x: event.touches[0].clientX,
+      y: event.touches[0].clientY
+    } : null;
+  }, { passive: true, capture: true });
+
+  document.addEventListener('touchend', function (event) {
+    if (!touchStart || !event.changedTouches || event.changedTouches.length !== 1) return;
+    var touch = event.changedTouches[0];
+    var dx = touch.clientX - touchStart.x;
+    var dy = touch.clientY - touchStart.y;
+    var target = touchStart.target;
+    touchStart = null;
+
+    // A movement is a scroll/gesture, not a tap.
+    if ((dx * dx + dy * dy) > 625 || !target.isConnected) return;
+    var endTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+    var endControl = endTarget && endTarget.closest
+      ? endTarget.closest(interactiveSelector) : null;
+    if (endControl !== target) return;
+
+    // Suppress Safari's follow-up synthesized click and dispatch exactly one click.
+    event.preventDefault();
+    lastSyntheticClick = Date.now();
+    lastSyntheticTarget = target;
+    if (clearSyntheticTimer) clearTimeout(clearSyntheticTimer);
+    clearSyntheticTimer = setTimeout(function () {
+      lastSyntheticClick = 0;
+      lastSyntheticTarget = null;
+    }, 800);
+    target.click();
+  }, { passive: false, capture: true });
+
+  document.addEventListener('click', function (event) {
+    var clickedControl = event.target && event.target.closest
+      ? event.target.closest(interactiveSelector) : null;
+    if (Date.now() - lastSyntheticClick < 700 && event.isTrusted &&
+        clickedControl === lastSyntheticTarget) {
+      event.preventDefault();
+      event.stopPropagation();
+      lastSyntheticClick = 0;
+      lastSyntheticTarget = null;
+      if (clearSyntheticTimer) clearTimeout(clearSyntheticTimer);
+    }
+  }, true);
+})();
 </script>
 </body>
 </html>
