@@ -163,6 +163,45 @@ footer .copyright{color:var(--muted);font-size:.85rem;margin-top:12px}
 @media(max-width:600px){.service-category-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.service-category-tab{min-height:76px;padding:8px 5px}.category-fa{font-size:.82rem}.category-en{font-size:.62rem}.service-items-grid{grid-template-columns:1fr;gap:9px}.service-item-button{min-height:58px}}
 
 .service-item-plus{transition:transform 0.34s cubic-bezier(0.22, 0.75, 0.25, 1);}
+
+
+/* Mobile touch improvements requested */
+.service-category-tab {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 82px;
+    padding: 10px 8px;
+    border: 1px solid rgba(212,175,55,.28);
+    border-radius: 13px;
+    background: var(--card);
+    color: var(--txt);
+    font-family: inherit;
+    cursor: pointer;
+    text-align: center;
+    transition: .2s;
+}
+
+.service-item-button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+    min-height: 66px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 12px;
+    border: 0;
+    background: transparent;
+    color: var(--txt);
+    font-family: inherit;
+    text-align: right;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
