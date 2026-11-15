@@ -16,11 +16,21 @@
 *{margin:0;padding:0;box-sizing:border-box}
 button,input,select,textarea{font:inherit}
 /* Mobile Safari: keep every interactive control reliably tappable. */
-button,a,[role="button"],[role="tab"]{
+button,
+a,
+input,
+select,
+textarea,
+[role="button"],
+[role="tab"],
+[onclick],
+.service-item-button,
+.service-category-tab{
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;
+  -ms-touch-action:manipulation;
 }
-button{ -webkit-appearance:none; }
+button{ -webkit-appearance:none; appearance:none; }
 
 html{scroll-behavior:smooth}
 body{min-height:100vh;display:flex;flex-direction:column;font-family:'Vazirmatn',Tahoma,'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);line-height:1.8}
