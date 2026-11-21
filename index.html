@@ -960,5 +960,78 @@ if(input){var cards=[].slice.call(document.querySelectorAll('.service-item-card'
 try{var once='chub_visit_sent_'+location.pathname;if(!sessionStorage.getItem(once)){sessionStorage.setItem(once,'1');fetch(API+'/rest/v1/site_visits',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({page:location.pathname||'/',referrer:document.referrer||null})}).catch(function(){});}}catch(e){}
 })();
 </script>
+
+
+<style id="chubshargh-responsive-layout-fix">
+/* Global responsive repair: prevent horizontal page drift on phones and desktops. */
+html, body {
+  width:100%; max-width:100%; min-width:0;
+  overflow-x:clip;
+}
+body { margin:0; }
+*, *::before, *::after { box-sizing:border-box; }
+img, video, iframe, canvas, svg { max-width:100%; }
+.container, main, header, footer, section, nav, .topbar, .hero,
+.projects, .services, .comments-section, #chub-admin {
+  min-width:0; max-width:100%;
+}
+.container { width:100%; }
+.grid, .service-groups, .service-items-grid, .service-category-tabs,
+.photo-service-tabs, .comments-form, .chub-stats-grid {
+  min-width:0;
+}
+.grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); }
+.service-items-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+input, textarea, select, button { max-width:100%; }
+pre, code { white-space:pre-wrap; overflow-wrap:anywhere; }
+.comment-body, .admin-content, .admin-row, .service-item-name,
+.photo-service-label, .card, .service-item-card { overflow-wrap:anywhere; min-width:0; }
+
+@media (max-width: 900px) {
+  .container { padding-left:18px; padding-right:18px; }
+  .topbar .container { gap:12px; }
+  nav { gap:14px; }
+  .service-items-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .service-category-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .photo-service-tabs { grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media (max-width: 600px) {
+  .container { padding-left:14px; padding-right:14px; }
+  .topbar .container { justify-content:center; }
+  .brand { max-width:100%; }
+  .langs { flex-wrap:wrap; justify-content:center; max-width:100%; }
+  nav { width:100%; justify-content:center; gap:9px 15px; }
+  nav a { font-size:.88rem; }
+  .hero { padding:64px 0 52px; }
+  .hero h1 { font-size:clamp(1.8rem,8vw,2.6rem); overflow-wrap:anywhere; }
+  .hero p.sub { padding:0 6px; font-size:.96rem; }
+  .gold-banner { max-width:calc(100% - 12px); padding:14px 18px; }
+  .projects, .services { padding-bottom:52px; }
+  .grid { grid-template-columns:minmax(0,1fr); gap:15px; }
+  .service-category-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
+  .service-items-grid { grid-template-columns:minmax(0,1fr); }
+  .photo-service-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .service-photo-preview { width:100%; max-width:100%; }
+  .comments-card { padding:15px; }
+  .comments-form { grid-template-columns:minmax(0,1fr); }
+  .comments-field, .comments-field.full { grid-column:1/-1; }
+  .comment-item-head { flex-wrap:wrap; }
+  #chub-admin .admin-wrap { width:100%; padding-left:12px; padding-right:12px; }
+  #chub-admin .admin-card { padding:14px; }
+  .chub-stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .chub-wa-float { max-width:calc(100vw - 24px); white-space:normal; }
+  footer { padding:28px 0; }
+}
+@media (max-width: 360px) {
+  .container { padding-left:10px; padding-right:10px; }
+  .lang-btn { padding:5px 9px; }
+  .service-category-tab { padding:7px 4px; }
+  .chub-wa-float { font-size:.82rem; padding:10px 11px; }
+}
+@media (min-width: 1200px) {
+  .container { width:min(100% - 40px,1150px); }
+}
+</style>
+
 </body>
 </html>
